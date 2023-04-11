@@ -27,74 +27,74 @@ Observaciones:
 """
 
 # Función 1: Película (solo película) con mayor duración según año, plataforma y tipo de duración
-@app.get("/max_duration/{year}/{platform}/{duration_type}")
-def get_max_duration(year:int, platform:str,duration_type:str):
-    if platform not in ["amazon","disney","hulu","netflix"]:
-        return "Nombre de plataforma incorrecta. Datos correctos: amazon,disney,hulu,netflix"
+@app.get("/get_max_duration/{anio}/{plataforma}/{dtype}")
+def get_max_duration(anio:int, plataforma:str,dtype:str):
+    if plataforma not in ["amazon","disney","hulu","netflix"]:
+        return {"Nombre de plataforma incorrecta. Datos correctos":["amazon","disney","hulu","netflix"]}
     else:
-        df=df_platform[df_platform.id.str[0]==platform[0]]
-        if year not in df.release_year.to_list():
-            return f"Año de estreno inválido. Rango correcto: [{df.release_year.min()};{df.release_year.max()}]"
+        df=df_platform[df_platform.id.str[0]==plataforma[0]]
+        if anio not in df.release_year.to_list():
+            return {"Año de estreno inválido. Rango correcto":f"[{df.release_year.min()};{df.release_year.max()}]"}
         else:
-            if duration_type not in ["min","season"]:
-                return "Tipo de duración inválido. Datos correctos: min,season"
+            if dtype not in ["min","season"]:
+                return {"Tipo de duración inválido. Datos correctos":["min","season"]}
             else:
-                df=df[(df.type=="movie")&~(df.listed_in.str.contains("documentar"))&(df.release_year==year)&(df.duration_type==duration_type)]
+                df=df[(df.type=="movie")&~(df.listed_in.str.contains("documentar"))&(df.release_year==anio)&(df.duration_type==dtype)]
                 if df.shape[0]>0:
-                    return df.title[df.duration_int.idxmax()]
+                    return {"pelicula":df.title[df.duration_int.idxmax()]}
                 else:
                      return "Sin Datos"
-
+                
 # Función 2: Cantidad de películas (solo películas) por plataforma con un puntaje mayor a XX en determinado año
-@app.get("/score_count/{platform}/{scored}/{year}")
-def get_score_count(platform:str,scored:float,year:int):
-    if platform not in ["amazon","disney","hulu","netflix"]:
-        return "Nombre de plataforma incorrecta. Datos correctos: amazon,disney,hulu,netflix"
+@app.get("/get_score_count/{plataforma}/{scored}/{anio}")
+def get_score_count(plataforma:str,scored:float,anio:int):
+    if plataforma not in ["amazon","disney","hulu","netflix"]:
+        return {"Nombre de plataforma incorrecta. Datos correctos":["amazon","disney","hulu","netflix"]}
     else:
-        df=df_platform[df_platform.id.str[0]==platform[0]]
-        if year not in df.release_year.to_list():
-            return f"Año de estreno inválido. Rango correcto: [{df.release_year.min()};{df.release_year.max()}]"
+        df=df_platform[df_platform.id.str[0]==plataforma[0]]
+        if anio not in df.release_year.to_list():
+            return {"Año de estreno inválido. Rango correcto":f"[{df.release_year.min()};{df.release_year.max()}]"}
         else:
-            df=df[(df.type=="movie")&~(df.listed_in.str.contains("documentar"))&(df.score>scored)&(df.release_year==year)]
+            df=df[(df.type=="movie")&~(df.listed_in.str.contains("documentar"))&(df.score>scored)&(df.release_year==anio)]
             if df.shape[0]>0:
-                return df.shape[0]
+                return {"plataforma":plataforma,"cantidad":df.shape[0],"anio":anio,"score":scored}
             else:
                 return "Sin Datos"
 
 # Función 3: Cantidad de películas (sólo películas) según plataforma
-@app.get("/count_platform/{platform}")
-def get_count_platform(platform:str):
-    if platform not in ["amazon","disney","hulu","netflix"]:
-        return "Nombre de plataforma incorrecta. Datos correctos: amazon,disney,hulu,netflix"
+@app.get("/get_count_platform/{plataforma}")
+def get_count_platform(plataforma:str):
+    if plataforma not in ["amazon","disney","hulu","netflix"]:
+        return {"Nombre de plataforma incorrecta. Datos correctos":["amazon","disney","hulu","netflix"]}
     else:
-        df=df_platform[(df_platform.id.str[0]==platform[0])&(df_platform.type=="movie")&~(df_platform.listed_in.str.contains("documentar"))]
-        return df.shape[0]
+        df=df_platform[(df_platform.id.str[0]==plataforma[0])&(df_platform.type=="movie")&~(df_platform.listed_in.str.contains("documentar"))]
+        return {"plataforma":plataforma,"peliculas":df.shape[0]}
 
 # Función 4: Actor que más se repite según plataforma y año
 # En este caso se devolverá una lista de actores, ya que puede darse el caso de múltiples empates
-@app.get("/actor/{platform}/{year}")
-def get_actor(platform:str,year:int):
-    if platform not in ["amazon","disney","hulu","netflix"]:
-        return "Nombre de plataforma incorrecta. Datos correctos: amazon,disney,hulu,netflix"
+@app.get("/get_actor/{plataforma}/{anio}")
+def get_actor(plataforma:str,anio:int):
+    if plataforma not in ["amazon","disney","hulu","netflix"]:
+        return {"Nombre de plataforma incorrecta. Datos correctos":["amazon","disney","hulu","netflix"]}
     else:
-        df=df_platform[df_platform.id.str[0]==platform[0]]
-        if year not in df.release_year.to_list():
-            return f"Año de estreno inválido. Rango correcto: [{df.release_year.min()};{df.release_year.max()}]"
+        df=df_platform[df_platform.id.str[0]==plataforma[0]]
+        if anio not in df.release_year.to_list():
+            return {"Año de estreno inválido. Rango correcto":f"[{df.release_year.min()};{df.release_year.max()}]"}
         else:
-            df=df[df.release_year==year].dropna(subset="cast")
+            df=df[df.release_year==anio].dropna(subset="cast")
             if df.shape[0]>0:
                 se=df.cast.str.split(", ").explode().value_counts()
                 df_actor=se[se==se.max()].reset_index()
-                return df_actor["index"].str.title().to_list()
+                return {"plataforma":plataforma,"anio":anio,"actor":df_actor["index"].to_list(),"apariciones":df_actor["cast"].to_list()[0]}
             else:
                 return "Sin Datos"
 
 #Función 5: Cantidad de contenidos/productos (todo lo disponible en streaming) que se publicó por país y año
 # Observación: existen varios contenidos que se realizaron en más de un país, por lo que estos también se considerarán en su conteo
-@app.get("/count_county/{tipo}/{pais}/{anio}")
+@app.get("/prod_per_county/{tipo}/{pais}/{anio}")
 def prod_per_county(tipo:str,pais:str,anio:int):
     if tipo not in ["pelicula","serie","documental"]:
-        return "Tipo de contenido inválido. Datos correctos: ",["pelicula","serie","documental"]
+        return {"Tipo de contenido inválido. Datos correctos":["pelicula","serie","documental"]}
     else:
         if tipo=="pelicula":
             df=df_platform[(df_platform.type=="movie")&~(df_platform.listed_in.str.contains("documentar"))]
@@ -103,15 +103,19 @@ def prod_per_county(tipo:str,pais:str,anio:int):
         else:
             df=df_platform[df_platform.listed_in.str.contains("documentar")]
         if pais not in df[df.country.notnull()].country.unique():
-            return "Nombre de país inválido. Datos de ejemplo correctos",list(df[df.country.notnull()].country.unique())[:10]
+            return {"Nombre de país inválido. Datos de ejemplo correctos":list(df[df.country.notnull()].country.unique())[:10]}
         else:
             if anio not in df.release_year.to_list():
-                return f"Año de estreno inválido. Rango correcto: [{df.release_year.min()};{df.release_year.max()}]"
+                return {"Año de estreno inválido. Rango correcto":f"[{df.release_year.min()};{df.release_year.max()}]"}
             else:
                 df=df[(df.country.str.contains(pais,na=False))&(df.release_year==anio)]
-                return {"Tipo de contenido":tipo,"País":pais,"Año":anio,"Cantidad de publicaciones":df.shape[0]}
+                s="(es)" if tipo=="documental" else "(s)"
+                return {"pais":pais,"anio":anio,"peliculas":f"{df.shape[0]} {tipo}{s}"}
 
-# Función 6: 
-@app.get("/rating/{rating}")
+# Función 6: Cantidad total de contenidos/productos (todo lo disponible en streaming) según el rating de audiencia
+@app.get("/get_contents/{rating}")
 def get_contents(rating:str):
-    pass
+    if rating not in df_platform.rating.unique():
+        return {"Rating de audiencia incorrecto. Datos correctos":list(df_platform.rating.unique())}
+    else:
+        return {"rating":rating,"contenido":df_platform[df_platform.rating==rating].shape[0]}
