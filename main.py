@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 # Importación de datos
 df_platform=pd.read_csv(r"https://raw.githubusercontent.com/JersonGB22/ProyectoIndividualN1/main/Datasets/platform_transformation.csv")
+
 # Instanciamos la clase FastAPI para construir la aplicación de Interfaz de Consultas
 app=FastAPI()
 
