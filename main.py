@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 # Importación de datos
 df_platform=pd.read_csv(r"https://raw.githubusercontent.com/JersonGB22/ProyectoIndividualN1/main/Datasets/platform_transformation.csv")
+df_ml=pd.read_csv(r"https://raw.githubusercontent.com/JersonGB22/ProyectoIndividualN1/main/Datasets/movies_ML_API.csv")
 
 # Instanciamos la clase FastAPI para construir la aplicación de Interfaz de Consultas
 app=FastAPI()
@@ -120,3 +121,12 @@ def get_contents(rating:str):
         return {"Rating de audiencia incorrecto. Datos correctos":list(df_platform.rating.unique())}
     else:
         return {"rating":rating,"contenido":df_platform[df_platform.rating==rating].shape[0]}
+
+# Función 7: 5 películas con mayor puntaje (más similares) a una específica en orden descendente
+@app.get("/get_recomendation/{title}")
+def get_recommendation(title: str):
+    if title not in df_ml.title.tolist():
+        return {"Nombre de la película incorrecto. Datos de ejemplos correctos":list(df_ml.title)[:10]}
+    else:
+        indices=eval(df_ml[df_ml.title==title].index_movie.iloc[0])
+        return {"recomendacion":list(df_ml.title.iloc[indices].values)}
