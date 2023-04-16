@@ -83,7 +83,8 @@ def get_actor(plataforma:str,anio:int):
         if anio not in df.release_year.to_list():
             return {"Año de estreno inválido. Rango correcto":f"[{df.release_year.min()};{df.release_year.max()}]"}
         else:
-            df=df[df.release_year==anio].dropna(subset="cast")
+            df=df[df.release_year==anio]
+            df=df.dropna(subset=["cast"])
             if df.shape[0]>0:
                 se=df.cast.str.split(", ").explode().value_counts()
                 se=se[se==se.max()]
