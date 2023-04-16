@@ -87,7 +87,7 @@ def get_actor(plataforma:str,anio:int):
             if df.shape[0]>0:
                 se=df.cast.str.split(", ").explode().value_counts()
                 df_actor=se[se==se.max()].reset_index()
-                return {"plataforma":plataforma,"anio":anio,"actor":df_actor["index"].to_list(),"apariciones":df_actor["cast"].to_list()[0]}
+                return {"plataforma":plataforma,"anio":anio,"actor":list(df_actor["index"].to_list()),"apariciones":list(df_actor["cast"].to_list())[0]}
             else:
                 return "Sin Datos"
 
