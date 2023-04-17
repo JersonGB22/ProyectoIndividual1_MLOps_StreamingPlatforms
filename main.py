@@ -113,7 +113,7 @@ def prod_per_county(tipo:str,pais:str,anio:int):
             else:
                 df=df[(df.country.str.contains(pais,na=False))&(df.release_year==anio)]
                 s="(es)" if tipo=="documental" else "(s)"
-                return {"pais":pais,"anio":anio,"peliculas":f"{df.shape[0]} {tipo}{s}"}
+                return {"pais":pais,"anio":anio,"contenido":f"{df.shape[0]} {tipo}{s}"}
 
 # Función 6: Cantidad total de contenidos/productos (todo lo disponible en streaming) según el rating de audiencia
 @app.get("/get_contents/{rating}")
