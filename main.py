@@ -29,7 +29,8 @@ Observaciones:
 """
 
 # Función 1: Película (solo película) con mayor duración según año, plataforma y tipo de duración
-@app.get("/get_max_duration/{anio}/{plataforma}/{dtype}")
+@app.get("/get_max_duration/{anio}/{plataforma}/{dtype}",
+         summary="Película (solo película) con mayor duración según año, plataforma de streaming y tipo de duración")
 def get_max_duration(anio:int, plataforma:str,dtype:str):
     if plataforma not in ["amazon","disney","hulu","netflix"]:
         return {"Nombre de plataforma incorrecta. Datos correctos":["amazon","disney","hulu","netflix"]}
@@ -48,7 +49,8 @@ def get_max_duration(anio:int, plataforma:str,dtype:str):
                      return "Sin Datos"
                 
 # Función 2: Cantidad de películas (solo películas) por plataforma con un puntaje mayor a XX en determinado año
-@app.get("/get_score_count/{plataforma}/{scored}/{anio}")
+@app.get("/get_score_count/{plataforma}/{scored}/{anio}",
+         summary="Cantidad de películas (solo películas) por plataforma con un puntaje mayor a XX en determinado año")
 def get_score_count(plataforma:str,scored:float,anio:int):
     if plataforma not in ["amazon","disney","hulu","netflix"]:
         return {"Nombre de plataforma incorrecta. Datos correctos":["amazon","disney","hulu","netflix"]}
@@ -64,7 +66,8 @@ def get_score_count(plataforma:str,scored:float,anio:int):
                 return "Sin Datos"
 
 # Función 3: Cantidad de películas (sólo películas) según plataforma
-@app.get("/get_count_platform/{plataforma}")
+@app.get("/get_count_platform/{plataforma}",
+         summary="Cantidad de películas (sólo películas) según plataforma")
 def get_count_platform(plataforma:str):
     if plataforma not in ["amazon","disney","hulu","netflix"]:
         return {"Nombre de plataforma incorrecta. Datos correctos":["amazon","disney","hulu","netflix"]}
@@ -74,7 +77,8 @@ def get_count_platform(plataforma:str):
 
 # Función 4: Actor que más se repite según plataforma y año
 # En este caso se devolverá una lista de actores, ya que puede darse el caso de múltiples empates
-@app.get("/get_actor/{plataforma}/{anio}")
+@app.get("/get_actor/{plataforma}/{anio}",
+         summary="Actor(s) que más se repite(n) según plataforma y año")
 def get_actor(plataforma:str,anio:int):
     if plataforma not in ["amazon","disney","hulu","netflix"]:
         return {"Nombre de plataforma incorrecta. Datos correctos":["amazon","disney","hulu","netflix"]}
@@ -94,7 +98,8 @@ def get_actor(plataforma:str,anio:int):
 
 #Función 5: Cantidad de contenidos/productos (todo lo disponible en streaming) que se publicó por país y año
 # Observación: existen varios contenidos que se realizaron en más de un país, por lo que estos también se considerarán en su conteo
-@app.get("/prod_per_county/{tipo}/{pais}/{anio}")
+@app.get("/prod_per_county/{tipo}/{pais}/{anio}",
+         summary="Cantidad de contenido audiovisual (todo lo disponible en streaming: serie, película y documental) por país y año")
 def prod_per_county(tipo:str,pais:str,anio:int):
     if tipo not in ["pelicula","serie","documental"]:
         return {"Tipo de contenido inválido. Datos correctos":["pelicula","serie","documental"]}
@@ -116,7 +121,8 @@ def prod_per_county(tipo:str,pais:str,anio:int):
                 return {"pais":pais,"anio":anio,"contenido":f"{df.shape[0]} {tipo}{s}"}
 
 # Función 6: Cantidad total de contenidos/productos (todo lo disponible en streaming) según el rating de audiencia
-@app.get("/get_contents/{rating}")
+@app.get("/get_contents/{rating}",
+         summary="Cantidad de contenido audiovisual (todo lo disponible en streaming: serie, película y documental) por rating de audiencia")
 def get_contents(rating:str):
     if rating not in df_platform.rating.unique():
         return {"Rating de audiencia incorrecto. Datos correctos":list(df_platform.rating.unique())}
@@ -124,7 +130,8 @@ def get_contents(rating:str):
         return {"rating":rating,"contenido":df_platform[df_platform.rating==rating].shape[0]}
 
 # Función 7: 5 películas con mayor puntaje (más similares) a una específica en orden descendente
-@app.get("/get_recomendation/{title}")
+@app.get("/get_recomendation/{title}",
+         summary="Cinco películas con mayor puntaje (más similares) a una específica en orden descendente")
 def get_recommendation(title: str):
     if title not in df_ml.title.tolist():
         return {"Nombre de la película incorrecto. Datos de ejemplos correctos":list(df_ml.title)[:10]}
