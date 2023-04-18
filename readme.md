@@ -3,8 +3,8 @@
 # <h1 align=center> **PROYECTO INDIVIDUAL N°1: Machine Learning Operations (MLOps)** </h1>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/67664604/217914153-1eb00e25-ac08-4dfa-aaf8-53c09038f082.png" height="300" width="auto" style="max-width: 50%;" />
-  <img src="ConsignasProyecto/src/image_platforms.jpg" height="300" width="auto" style="max-width: 50%;" />
+  <img src="https://user-images.githubusercontent.com/67664604/217914153-1eb00e25-ac08-4dfa-aaf8-53c09038f082.png" height="250" width="auto" style="max-width: 50%;" />
+  <img src="ConsignasProyecto/src/image_platforms.jpg" height="250" width="auto" style="max-width: 50%;" />
 </p>
 <center>
 
@@ -43,7 +43,7 @@ Creas 6 funciones para disponibilizar los datos de la empresa usando el framewor
 
 **Resolución de la consignas:**
 
-En esta etapa del proyecto, hemos creado los seis endpoints que se nos han asignado mediante el uso de las librerías pandas y FastAPI en el archivo [main.py](https://github.com/JersonGB22/ProyectoIndividualN1/blob/main/main.py). Además, hemos incluido algunas observaciones importantes que es necesario tomar en cuenta. En cada función, se han considerado los casos en los que los argumentos no están presentes en el dataframe establecido, y se han proporcionado instrucciones sobre qué argumentos deben ser ingresados. En los casos en que la función no devuelva nada debido a los filtros aplicados, el dataframe respectivo se retornará con la cadena de texto "Sin Datos" para evitar errores y mejorar la visualización de las funciones.
+En esta etapa del proyecto, hemos creado los seis endpoints que se nos han asignado mediante el uso de las librerías pandas y FastAPI en el archivo [main.py](https://github.com/JersonGB22/ProyectoIndividualN1/blob/main/main.py). Además, hemos incluido algunas observaciones importantes que es necesario tomar en cuenta. En cada función, se han considerado los casos en los que los argumentos no están presentes en el dataframe establecido, y se han proporcionado instrucciones sobre qué argumentos deben ser ingresados. En los casos en que la función no devuelva nada debido a los filtros aplicados, retornará la cadena de texto "Sin Datos" para evitar errores y mejorar la visualización de las funciones.
 
 # **Etapa III: Análisis Exploratorio de los Datos (EDA)**
 
@@ -62,7 +62,7 @@ En el archivo correspondiente a esta etapa [EDA&ETL(ML).ipynb](https://github.co
 
 **Resolución de la consigna:**
 
-La etapa de construcción del modelo de machine learning, se llevó a cabo en el archivo [MachineLearning.ipynb](https://github.com/JersonGB22/ProyectoIndividualN1/blob/main/MachineLearning.ipynb) utilizando la biblioteca "scikit-learn" (sklearn). Primero, cargamos el conjunto de datos `movies_transformation_ML`, y luego creamos una matriz de características utilizando la clase "CountVectorizer". A continuación, entrenamos y transformamos el modelo, lo que resultó en un vector. Luego, utilizamos la clase "cosine_similarity" para calcular la matriz de similitud. Además, construimos una función para obtener una lista de índices de las películas con mayor puntaje en orden descendente en relación a una película específica. Esta función se aplicó a la columna `label` para obtener las listas correspondientes a cada película, lo que nos permitió hacer recomendaciones personalizadas de manera más rápida y efectiva para el endpoint 7 de la API.
+La etapa de construcción del modelo de machine learning, se llevó a cabo en el archivo [MachineLearning.ipynb](https://github.com/JersonGB22/ProyectoIndividualN1/blob/main/MachineLearning.ipynb) utilizando la biblioteca scikit-learn (sklearn). Primero, cargamos el conjunto de datos `movies_transformation_ML`, y luego creamos una matriz de características utilizando la clase `CountVectorizer`. A continuación, entrenamos y transformamos el modelo, lo que resultó en un vector. Luego, utilizamos la clase `cosine_similarity` para calcular la matriz de similitud. Además, construimos una función para obtener una lista de índices de las películas con mayor puntaje en orden descendente en relación a una película específica. Esta función se aplicó a la columna `label` para obtener las listas correspondientes a cada película, lo que nos permitió hacer recomendaciones personalizadas de manera más rápida y efectiva para el endpoint 7 de la API.
 
 Finalmente, exportamos el dataframe resultante a un archivo CSV denominado [movies_ML_API.csv](https://raw.githubusercontent.com/JersonGB22/ProyectoIndividualN1/main/Datasets/movies_ML_API.csv), el cual se utilizó para realizar la función encomendada `get_recommendation`, en el archivo `main.py`, la cual recibe el nombre de una película y devuelve las 5 más parecidas a esta en orden descendente. También valida el argumento `titulo` y proporciona instrucciones sobre los argumentos necesarios para su uso, al igual que las otras seis funciones.
 
@@ -88,6 +88,8 @@ Una vez que hemos creado el archivo `requirements.txt`, podemos seguir las instr
 
 - Nota: Para acceder a la documentación de la API, visite la siguiente URL en su navegador: <https://jersonbgb-project-n1-henry.onrender.com/docs>. Al hacerlo, se abrirá la página de documentación interactiva, la cual le permitirá explorar todos los endpoints disponibles y probarlos en tiempo real.
 La documentación interactiva ha sido generada automáticamente por FastAPI, y en ella encontrará una descripción detallada de cada uno de los endpoints, así como de los parámetros que aceptan y los esquemas de respuesta. De esta manera, podrá tener un mayor entendimiento sobre el funcionamiento de la API y cómo utilizarla de manera efectiva.
+
+## [Link al video explicativo del proyecto](https://drive.google.com/file/d/1z51YP4_ciY87VknH25hNNZNqHefv50x_/view?usp=sharing)
 
 # **Tecnologías utilizadas:**
 | Technology | Documentation |
